@@ -33,6 +33,8 @@ void dimension(char *source_path) {
     free(data);
 }
 
+/* Milestone 1 */
+
 void max_pixel(const char* filename) {
     unsigned char* data = NULL;
     int width, height, channels;
@@ -66,3 +68,36 @@ void max_pixel(const char* filename) {
     printf("max_pixel (%d, %d): %d, %d, %d\n", x, y, r, g, b);
     free(data);
 }
+
+void min_pixel(const char *filename) {
+    unsigned char *data;
+    int width, height, channels;
+
+    if (read_image_data(filename, &data, &width, &height, &channels)==0) {
+        printf("Erreur lecture image\n");
+        return;
+    }
+
+    int min_sum = 1000;
+    int min_x = 0, min_y = 0;
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int i = (y * width + x) * channels;
+            int r = data[i], g = data[i + 1], b = data[i + 2];
+            int sum = r + g + b;
+
+            if (sum < min_sum) {
+                min_sum = sum;
+                min_x = x;
+                min_y = y;
+            }
+        }
+    }
+
+    int i = (min_y * width + min_x) * channels;
+    printf("min_pixel (%d, %d): %d, %d, %d\n", min_x, min_y, data[i], data[i+1], data[i+2]);
+
+    free(data);
+}
+

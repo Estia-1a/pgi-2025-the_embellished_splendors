@@ -5,6 +5,7 @@
 void helloWorld();
 void dimension (char *source_path);
 void max_pixel(const char* filename);
+void min_pixel(const char* filename);
 
 
 
