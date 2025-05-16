@@ -44,6 +44,17 @@ int main(int argc, char **argv) {
     min_pixel(configuration.filenames[0]);
   }
 
+  if (strncmp(configuration.command, "max_component", 13) == 0) {
+    if (configuration.arguments[0] != NULL) {
+        max_component(configuration.filenames[0], configuration.arguments[0]);
+    } else {
+        fprintf(stderr, "erreur : manque argument (R, G or B)\n");
+        return 1;
+    }
+}
+
+
+
 
   return 0;
 }

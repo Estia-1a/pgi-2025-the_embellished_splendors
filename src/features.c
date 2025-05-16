@@ -101,3 +101,37 @@ void min_pixel(const char *filename) {
     free(data);
 }
 
+void max_component(const char *filename, const char *component) {
+    unsigned char *data = NULL;
+    int width, height, channels;
+
+    if (read_image_data(filename, &data, &width, &height, &channels)==0) {
+        printf("erreur lecture image\n");
+        return;
+    }
+
+    int max_value = -1, max_x = 0, max_y = 0;
+    int index = 0;
+    if (component[0] == 'R') {
+        index = 0;
+    } else if (component[0] == 'G') {
+        index = 1;
+    } else {
+        index = 2; // On suppose que c'est 'B' sinon
+    }
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int i = (y * width + x) * channels;
+            int value = data[i + index];
+            if (value > max_value) {
+                max_value = value;
+                max_x = x;
+                max_y = y;
+            }
+        }
+    }
+
+    printf("max_component %s (%d, %d): %d\n", component, max_x, max_y, max_value);
+    free(data);
+}
