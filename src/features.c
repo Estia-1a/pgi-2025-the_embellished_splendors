@@ -57,6 +57,18 @@ void tenth_pixel(char *source_path) {
     free(data);
 }
 
+void second_line(char *source_path) {
+    unsigned char *data = NULL;
+    int width, height, channels;
+    read_image_data(source_path, &data, &width, &height, &channels);
+    if (height < 2) {
+        printf("Image too small\n");
+        return;
+    }
+    int index = width * channels; // Premier pixel de la deuxième ligne (ligne 1)
+    printf("second_line: %d, %d, %d\n", data[index], data[index + 1], data[index + 2]);
+}
+
 /* Milestone 1 */
 
 void max_pixel(const char* filename) {
