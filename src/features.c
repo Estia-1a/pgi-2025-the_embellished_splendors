@@ -17,6 +17,8 @@ void helloWorld() {
     printf("Hello World !");
 }
 
+/* Tutoriel */
+
 void dimension(char *source_path) {
     unsigned char *data = NULL;
     int width = 10, height = 10, channels = 0;
@@ -29,6 +31,28 @@ void dimension(char *source_path) {
     }
 
     printf("dimension: %d, %d\n", width, height);
+
+    free(data);
+}
+
+void tenth_pixel(char *source_path) {
+    unsigned char *data = NULL;
+    int width, height, channels;
+
+    read_image_data(source_path, &data, &width, &height, &channels);
+
+    if (width < 10) {
+        printf("largeur < 10 \n");
+        free(data);
+        return;
+    }
+
+    int index = (9 * channels); // 9e pixel (x=9,y=0), channels par pixel
+    unsigned char R = data[index];
+    unsigned char G = data[index + 1];
+    unsigned char B = data[index + 2];
+
+    printf("tenth_pixel: %d, %d, %d\n", R, G, B);
 
     free(data);
 }
