@@ -37,3 +37,4 @@ install(TARGETS freud
         CONFIGURATIONS Release
         RUNTIME DESTINATION ${CMAKE_SOURCE_DIR}/dist
 )
+
