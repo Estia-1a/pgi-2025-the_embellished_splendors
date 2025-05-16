@@ -69,6 +69,19 @@ void second_line(char *source_path) {
     printf("second_line: %d, %d, %d\n", data[index], data[index + 1], data[index + 2]);
 }
 
+void print_pixel(char *filename, int x, int y) {
+    unsigned char *data = NULL;
+    int width, height, channels;
+    read_image_data(filename, &data, &width, &height, &channels);
+  
+    pixelRGB *p = get_pixel(data, width, height, channels, x, y);
+    if (p == NULL) {
+        printf("Coordinates out of range\n");
+        return;
+    }
+    printf("print_pixel (%d, %d): %d, %d, %d\n", x, y, p->R, p->G, p->B);
+}
+
 /* Milestone 1 */
 
 void max_pixel(const char* filename) {
