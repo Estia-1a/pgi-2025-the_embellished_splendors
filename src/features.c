@@ -22,7 +22,7 @@ void dimension(char *source_path) {
     int result = read_image_data(source_path, &data, &width, &height, &channels);
 
     if (result != 0) {
-        fprintf(stderr, "impossible de lire l'image "%s" \n", source_path);
+        fprintf(stderr, "impossible de lire l'image \"%s\" \n", source_path);
         return;
     }
 
@@ -33,4 +33,5 @@ void dimension(char *source_path) {
 
 
 
-}
+
+
