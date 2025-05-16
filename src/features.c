@@ -117,7 +117,7 @@ void max_component(const char *filename, const char *component) {
     } else if (component[0] == 'G') {
         index = 1;
     } else {
-        index = 2; // On suppose que c'est 'B' sinon
+        index = 2; 
     }
 
     for (int y = 0; y < height; y++) {
@@ -134,4 +134,76 @@ void max_component(const char *filename, const char *component) {
 
     printf("max_component %s (%d, %d): %d\n", component, max_x, max_y, max_value);
     free(data);
+}
+
+void min_component(const char *filename, const char *component) {
+    unsigned char *data = NULL;
+    int width = 0, height = 0, channel_count = 0;
+
+    if (read_image_data(filename, &data, &width, &height, &channel_count) == 0) {
+        printf("lecture image impossible.\n");
+        return;
+    }
+
+    int comp_index;
+    if (component[0] == 'R')
+        comp_index = 0;
+    else if (component[0] == 'G')
+        comp_index = 1;
+    else if (component[0] == 'B')
+        comp_index = 2;
+    else {
+        printf("composant invalide. Utilisez R, G ou B.\n");
+        free(data);
+        return;
+    }
+
+    int min_value = 256; 
+    int min_x = 0, min_y = 0;
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int idx = (y * width + x) * channel_count + comp_index;
+            if (data[idx] < min_value) {
+                min_value = data[idx];
+                min_x = x;
+                min_y = y;
+            }
+        }
+    }
+
+    printf("min_component %c (%d, %d): %d\n", component[0], min_x, min_y, min_value);
+
+    free(data);
+}
+
+void stat_report(const char* filename) {
+    FILE* file = fopen("stat_report.txt", "w");
+
+    max_pixel(filename);
+    fprintf(file, "\n");
+
+    min_pixel(filename);
+    fprintf(file, "\n");
+
+    max_component(filename, "R");
+    fprintf(file, "\n");
+
+    max_component(filename, "G");
+    fprintf(file, "\n");
+
+    max_component(filename, "B");
+    fprintf(file, "\n");
+
+    min_component(filename, "R");
+    fprintf(file, "\n");
+
+    min_component(filename, "G");
+    fprintf(file, "\n");
+
+    min_component(filename, "B");
+
+    fclose(file);
+
+    printf("Enregistré dans stat_report.txt\n");
 }
