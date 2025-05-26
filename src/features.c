@@ -93,7 +93,7 @@ void print_pixel(char *filename, int x, int y) {
     printf("print_pixel (%d, %d): %d, %d, %d\n", x, y, p->R, p->G, p->B);
 }
 
-/* Milestone 1 */
+/* Statistics */
 
 void max_pixel(const char* filename) {
     unsigned char* data = NULL;
@@ -267,3 +267,5 @@ void stat_report(const char* filename) {
 
     printf("Enregistré dans stat_report.txt\n");
 }
+/* Colors */
+
