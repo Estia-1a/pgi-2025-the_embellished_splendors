@@ -269,3 +269,21 @@ void stat_report(const char* filename) {
 }
 /* Colors */
 
+void color_red(char *source_path) {
+    unsigned char *data = NULL;
+    int width, height, channels;
+
+    if (read_image_data(source_path, &data, &width, &height, &channels) == 0) {
+        printf("lecture image impossible.\n");
+        return;
+    }
+
+    for (int i = 0; i < width * height * channels; i += channels) {
+        data[i + 1] = 0; // G
+        data[i + 2] = 0; // B
+    }
+
+    write_image_data("image_out.bmp", data, width, height);
+    free(data);
+}
+

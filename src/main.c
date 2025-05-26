@@ -27,6 +27,9 @@ int main(int argc, char **argv) {
   /* Example with helloworld command
    * If helloworld is a called command: freud.exe -f images/input/image.jpeg -c helloworld 
    */
+
+/* Tutoriel */
+  
   if ( strncmp( configuration.command, "helloworld", 10 ) == 0 ) {
     /* helloworld() function is defined in feature.h and implemented in feature.c */
     helloWorld();
@@ -45,9 +48,15 @@ int main(int argc, char **argv) {
     tenth_pixel(configuration.filenames[0]);
   }
 
-if (strncmp(configuration.command, "second_line", 11) == 0) {
+  if (strncmp(configuration.command, "second_line", 11) == 0) {
     second_line(configuration.filenames[0]);
   }
+
+  if (strncmp(configuration.command, "stat_report",11) == 0) {
+    stat_report(configuration.filenames[0]);
+  }
+
+/* Statistics */
 
   if (strncmp(configuration.command, "max_pixel", 9) == 0) {
     max_pixel(configuration.filenames[0]);
@@ -66,14 +75,16 @@ if (strncmp(configuration.command, "second_line", 11) == 0) {
     min_component(configuration.filenames[0], configuration.arguments[0]);
 }
 
-if (strncmp(configuration.command, "stat_report",11) == 0) {
-    stat_report(configuration.filenames[0]);
-}
-
 if (strncmp(configuration.command, "print_pixel", 11) == 0) {
     int x = atoi(configuration.arguments[0]);
     int y = atoi(configuration.arguments[1]);
     print_pixel(configuration.filenames[0], x, y);
+}
+
+/* Colors */
+
+if (strncmp(configuration.command, "color_red", 9) == 0) {
+    color_red(configuration.filenames[0]);
 }
 
 

@@ -18,6 +18,8 @@ void min_component(const char *filename, const char *component);
 void stat_report(const char* filename);
 
 /* Colors */
+void color_red(char *source_path);
+
 
 
 
