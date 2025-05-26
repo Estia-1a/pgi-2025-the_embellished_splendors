@@ -267,6 +267,7 @@ void stat_report(const char* filename) {
 
     printf("Enregistré dans stat_report.txt\n");
 }
+
 /* Colors */
 
 void color_red(char *source_path) {
@@ -286,4 +287,26 @@ void color_red(char *source_path) {
     write_image_data("image_out.bmp", data, width, height);
     free(data);
 }
+
+void color_green(char *source_path) {
+    unsigned char *data = NULL;
+    int width, height, channels;
+
+    if (read_image_data(source_path, &data, &width, &height, &channels) == 0) {
+        printf("Impossible de lire l'image.\n");
+        return;
+    }
+
+    for (int i = 0; i < width * height * channels; i += channels) {
+        data[i + 0] = 0; 
+        data[i + 2] = 0; 
+    }
+
+    if (write_image_data("image_out.bmp", data, width, height) == 0) {
+        printf("Erreur lors de l'écriture de l'image.\n");
+    }
+
+    free(data);
+}
+
 
