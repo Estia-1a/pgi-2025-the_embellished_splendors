@@ -17,8 +17,21 @@ void helloWorld() {
 
 void dimension (char *source_path) {
     int width, height, channel_count;
-    unsigned char **data;
+    unsigned char *data;
     read_image_data(source_path, &data, &width, &height, &channel_count);    
     printf("dimension: %d, %d\n", width, height);
 
 }
+
+void first_pixel (char *source_path) {
+    int R, G, B, width, height, channel_count;
+    unsigned char *data;
+    read_image_data(source_path, &data, &width, &height, &channel_count);
+    R = data[0];
+    G = data[1];
+    B = data[2];
+
+    printf("first_pixel: %d, %d, %d\n", R, G, B);
+
+}
+
