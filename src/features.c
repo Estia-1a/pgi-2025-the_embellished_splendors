@@ -330,3 +330,31 @@ void color_blue(char *source_path) {
     free(data);
 }
 
+void color_gray(char *source_path) {
+    unsigned char *data = NULL;
+    int width, height, channels;
+
+    if (read_image_data(source_path, &data, &width, &height, &channels) == 0) {
+        printf("Lecture de l'image impossible.\n");
+        return;
+    }
+
+    for (int i = 0; i < width * height * channels; i += channels) {
+        unsigned char r = data[i];
+        unsigned char g = data[i + 1];
+        unsigned char b = data[i + 2];
+
+        unsigned char gray = (r + g + b) / 3;
+
+        data[i] = gray;
+        data[i + 1] = gray;
+        data[i + 2] = gray;
+    }
+
+    if (write_image_data("image_out.bmp", data, width, height) == 0) {
+        printf("Erreur lors de l'écriture de l'image.\n");
+    }
+
+    free(data);
+}
+
