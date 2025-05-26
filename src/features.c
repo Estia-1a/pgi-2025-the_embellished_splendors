@@ -358,25 +358,5 @@ void color_gray(char *source_path) {
     free(data);
 }
 
-void color_invert(char *source_path) {
-    unsigned char *data = NULL;
-    int width, height, channels;
 
-    if (read_image_data(source_path, &data, &width, &height, &channels) == 0) {
-        printf("Lecture de l'image impossible.\n");
-        return;
-    }
-
-    for (int i = 0; i < width * height * channels; i += channels) {
-        data[i] = 255 - data[i];       
-        data[i + 1] = 255 - data[i + 1]; 
-        data[i + 2] = 255 - data[i + 2]; 
-    }
-
-    if (write_image_data("image_out.bmp", data, width, height) == 0) {
-        printf("Écriture de l'image impossible.\n");
-    } 
-    
-    free(data);
-}
 
