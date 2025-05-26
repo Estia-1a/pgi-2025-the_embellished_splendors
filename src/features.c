@@ -35,6 +35,17 @@ void dimension(char *source_path) {
     free(data);
 }
 
+void first_pixel(char *source_path) {
+    unsigned char *data;
+    int width, height, channels;
+
+    if (read_image_data(source_path, &data, &width, &height, &channels) != 0) {
+        printf("first_pixel: %d, %d, %d\n", data[0], data[1], data[2]);
+    } else {
+        printf("Erreur lors de la lecture de l'image\n");
+    }
+}
+
 void tenth_pixel(char *source_path) {
     unsigned char *data = NULL;
     int width, height, channels;

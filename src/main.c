@@ -36,6 +36,19 @@ int main(int argc, char **argv) {
     dimension(configuration.filenames[0]);
   }
 
+  if (strncmp(configuration.command, "first_pixel", 11) == 0) {
+    first_pixel(configuration.filenames[0]);
+  }
+
+
+  if (strncmp(configuration.command, "tenth_pixel", 11) == 0) {
+    tenth_pixel(configuration.filenames[0]);
+  }
+
+if (strncmp(configuration.command, "second_line", 11) == 0) {
+    second_line(configuration.filenames[0]);
+  }
+
   if (strncmp(configuration.command, "max_pixel", 9) == 0) {
     max_pixel(configuration.filenames[0]);
   }
@@ -55,14 +68,6 @@ int main(int argc, char **argv) {
 
 if (strncmp(configuration.command, "stat_report",11) == 0) {
     stat_report(configuration.filenames[0]);
-}
-
-if (strncmp(configuration.command, "tenth_pixel", 11) == 0) {
-    tenth_pixel(configuration.filenames[0]);
-}
-
-if (strncmp(configuration.command, "second_line", 11) == 0) {
-    second_line(configuration.filenames[0]);
 }
 
 if (strncmp(configuration.command, "print_pixel", 11) == 0) {
