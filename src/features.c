@@ -267,3 +267,5 @@ void stat_report(const char* filename) {
 
     printf("Enregistré dans stat_report.txt\n");
 }
+
+//test//
