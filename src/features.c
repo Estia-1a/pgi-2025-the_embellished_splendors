@@ -268,4 +268,14 @@ void stat_report(const char* filename) {
     printf("Enregistré dans stat_report.txt\n");
 }
 
-//test//
+void rotate_cw(char *source_path) {
+    unsigned char *data = NULL;
+    int width, height, channels ;
+
+    if (read_image_data(source_path, &data, &width, &height, &channels) != 0){
+        printf("Erreur lecture image\n");
+        return;
+    }
+
+
+}
