@@ -358,5 +358,40 @@ void color_gray(char *source_path) {
     free(data);
 }
 
+void rotate_cw(char *source_path) {
+    unsigned char *data = NULL;
+    int width, height, channels;
 
+    if (read_image_data(source_path, &data, &width, &height, &channels) == 0) {
+        printf("Erreur de lecture image.\n");
+        return;
+    }
+
+    int new_width = height;
+    int new_height = width;
+    unsigned char *rotated_data = malloc(new_width * new_height * channels);
+
+    if (!rotated_data) {
+        printf("Erreur d'allocation mémoire.\n");
+        free(data);
+        return;
+    }
+
+    // Effectuer la rotation
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            for (int c = 0; c < channels; ++c) {
+                rotated_data[(x * new_width + (new_width - 1 - y)) * channels + c] =
+                    data[(y * width + x) * channels + c];
+            }
+        }
+    }
+
+    if (write_image_data("image_out.bmp", rotated_data, new_width, new_height)== 0 ) {
+        printf("Erreur d'écriture de l'image.\n");
+    }
+
+    free(data);
+    free(rotated_data);
+}
 
