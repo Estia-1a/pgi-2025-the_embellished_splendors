@@ -358,5 +358,33 @@ void color_gray(char *source_path) {
     free(data);
 }
 
+void invert(char *source_path) {
+    unsigned char *data = NULL;
+    int width, height, channels;
+
+    if (read_image_data(source_path, &data, &width, &height, &channels) == 0) {
+        printf("Lecture de l'image impossible.\n");
+        return;
+    }
+    /*pixelRGB *p = get_pixel(data, width, height, channels, x, y);*/
+
+    for (int i = 0; i < width * height * channels; i += channels) {
+        unsigned char r = data[i];
+        unsigned char g = data[i + 1];
+        unsigned char b = data[i + 2];
+        
+        data[i] = 255 - r;
+        data[i + 1] = 255 - g;
+        data[i + 2] = 255 - b;
+    }  
+/*x = width  y = height*/
+
+    if (write_image_data("image_out.bmp", data, width, height) == 0) {
+        printf("Erreur lors de l'écriture de l'image.\n");
+    }
+
+    free(data);
+}
+
 
 
