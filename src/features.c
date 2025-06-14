@@ -411,4 +411,60 @@ void color_gray_luminance(char *source_path) {
     free(data);
 
 }
+
+int max(int n1, int n2, int n3) {
+    int max = 0 ;
+
+    if (n3>n2 && n3>n1) {
+        max = n3;
+    } else if (n2>n1) {
+        max = n2 ;
+    } else {
+        max = n1 ;
+    }
+
+    return max ;
+}
+
+int min(int n1, int n2, int n3) {
+    int min = 0 ;
+
+    if (n3<n2 && n3<n1) {
+        min = n3;
+    } else if (n2<n1) {
+        min = n2 ;
+    } else {
+        min = n1 ;
+    }
+
+    return min ;
+}
+
+void color_desaturate(char *source_path) {
+    unsigned char *data = NULL;
+    int width, height, channels;
+
+    if (read_image_data(source_path, &data, &width, &height, &channels) == 0) {
+        printf("Lecture de l'image impossible.\n");
+        return;
+    }
+
+    for (int i = 0; i < width * height * channels; i += channels) {
+        unsigned char R = data[i];
+        unsigned char G = data[i + 1];
+        unsigned char B = data[i + 2];
+        unsigned char new_val = (min(R, G, B) + max(R, G, B)) / 2;
+        
+        data[i] = new_val;
+        data[i + 1] = new_val;
+        data[i + 2] = new_val;
+    }
+
+    if (write_image_data("image_out.bmp", data, width, height) == 0) {
+        printf("Erreur lors de l'écriture de l'image.\n");
+    }
+
+    free(data);
+
+}
 /*x = width  y = height*/

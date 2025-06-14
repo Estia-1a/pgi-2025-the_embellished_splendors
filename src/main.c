@@ -107,7 +107,9 @@ if (strncmp(configuration.command, "color_gray_luminance", 20) == 0) {
     color_gray_luminance(configuration.filenames[0]);
 }
 
-
+if (strncmp(configuration.command, "color_desaturate", 10) == 0) {
+    color_desaturate(configuration.filenames[0]);
+}
 
   return 0;
 }
