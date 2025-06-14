@@ -358,7 +358,7 @@ void color_gray(char *source_path) {
     free(data);
 }
 
-void invert(char *source_path) {
+void color_invert(char *source_path) {
     unsigned char *data = NULL;
     int width, height, channels;
 
