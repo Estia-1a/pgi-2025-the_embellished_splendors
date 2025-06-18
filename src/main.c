@@ -111,10 +111,6 @@ if (strncmp(configuration.command, "color_desaturate", 16) == 0) {
     color_desaturate(configuration.filenames[0]);
 }
 
-if (strncmp(configuration.command, "mirror_horizontal", 17) == 0) {
-    mirror_horizontal(configuration.filenames[0]);
-}
-
 if (strncmp(configuration.command, "scale_crop", 10) == 0) {
     int center_x = atoi(argv[5]);
     int center_y = atoi(argv[6]); 
