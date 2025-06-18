@@ -467,4 +467,61 @@ void color_desaturate(char *source_path) {
     free(data);
 
 }
+
+
+void mirror_horizontal(char *source_path){
+    unsigned char *data=NULL ;
+    int width, height, channels ;
+ 
+    read_image_data(source_path, &data, &width, &height, &channels);
+ 
+    unsigned char *mirror_data = malloc(width * height * channels);
+ 
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x){
+            for (int c=0; c < channels; ++c){
+                mirror_data[(y * width + (width - 1 - x)) * channels + c] = data[(y * width + x) * channels + c];    
+            }
+        }
+    }
+ 
+    write_image_data("image_out.bmp", mirror_data, width, height);
+ 
+    free(data);
+    free(mirror_data);
+}
+
+void scale_crop(char *source_path, int center_x, int center_y, int new_width, int new_height){
+    unsigned char *data = NULL;
+    int width, height, channels;
+ 
+    read_image_data(source_path, &data, &width, &height, &channels);
+ 
+    unsigned char *crop_data = malloc(new_width * new_height * channels);
+ 
+    memset(crop_data, 0, new_width * new_height * channels);
+
+    int debut_x = center_x - new_width / 2;
+    int debut_y = center_y - new_height / 2;
+ 
+    for (int y = 0; y < new_height; ++y) {
+        for (int x = 0; x < new_width; ++x) {
+            int img_original_x = debut_x + x;
+            int img_original_y = debut_y + y;
+            
+            if (img_original_x >= 0 && img_original_x < width && img_original_y >= 0 && img_original_y < height) {
+                for (int c = 0; c < channels; ++c) {
+                    crop_data[(y * new_width + x) * channels + c] = data[(img_original_y * width + img_original_x) * channels + c];
+                }
+            }
+        }
+    }
+ 
+    write_image_data("image_out.bmp", crop_data, new_width, new_height);
+ 
+    free(data);
+    free(crop_data);
+}
+
+
 /*x = width  y = height*/
