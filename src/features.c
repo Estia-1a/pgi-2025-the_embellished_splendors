@@ -95,37 +95,37 @@ void print_pixel(char *filename, int x, int y) {
 
 /* Statistics */
 
-void max_pixel(const char* filename) {
-    unsigned char* data = NULL;
+void max_pixel(const char *source_path) {
+    unsigned char *data = NULL;
     int width, height, channels;
 
-    if (read_image_data(filename, &data, &width, &height, &channels)==0) {
-        fprintf(stderr, "impossible de lire l'image %s\n", filename);
+    if (read_image_data(source_path, &data, &width, &height, &channels) == 0) {
+        printf("Erreur : lecture image impossible.\n");
         return;
     }
 
-    int best_index = 0;
-    int max_sum = 0;
+    int max_sum = -1;
+    int max_x = 0, max_y = 0;
 
-    for (int i = 0; i < width * height; i++) {
-        int r = data[i * channels];
-        int g = data[i * channels + 1];
-        int b = data[i * channels + 2];
-        int sum = r + g + b;
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int i = (y * width + x) * channels;
+            int r = data[i];
+            int g = data[i + 1];
+            int b = data[i + 2];
+            int sum = r + g + b;
 
-        if (i == 0 || sum > max_sum) {
-            max_sum = sum;
-            best_index = i;
+            if (sum > max_sum) {
+                max_sum = sum;
+                max_x = x;
+                max_y = y;
+            }
         }
     }
 
-    int x = best_index % width;
-    int y = best_index / width;
-    int r = data[best_index * channels];
-    int g = data[best_index * channels + 1];
-    int b = data[best_index * channels + 2];
+    int idx = (max_y * width + max_x) * channels;
+    printf("max_pixel (%d, %d): %d, %d, %d\n", max_x, max_y, data[idx], data[idx + 1], data[idx + 2]);
 
-    printf("max_pixel (%d, %d): %d, %d, %d\n", x, y, r, g, b);
     free(data);
 }
 
@@ -355,6 +355,23 @@ void color_gray(char *source_path) {
         printf("Erreur lors de l'écriture de l'image.\n");
     }
 
+    free(data);
+}
+
+void color_invert(char *source_path) {
+    unsigned char *data = NULL;
+    int width, height, channels;
+
+    if (read_image_data(source_path, &data, &width, &height, &channels) == 0) {
+        printf("Erreur : impossible de lire l’image.\n");
+        return;
+    }
+
+    for (int i = 0; i < width * height * channels; i++) {
+        data[i] = 255 - data[i];
+    }
+
+    write_image_data("image_out.bmp", data, width, height);
     free(data);
 }
 
