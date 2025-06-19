@@ -8,7 +8,6 @@ void first_pixel(char *source_path);
 void tenth_pixel(char *source_path);
 void second_line(char *source_path);
 void print_pixel(char *filename, int x, int y);
-void max_pixel(const char* filename);
 
 /* Statistics */
 void min_pixel(const char* filename);
@@ -22,6 +21,9 @@ void color_red(char *source_path);
 void color_green(char *source_path);
 void color_blue(char *source_path);
 void color_gray(char *source_path);
+void color_invert(char *source_path);
+void color_gray_luminance(char *source_path);
+
 
 /*Transform*/
 void rotate_cw(char *source_path);
