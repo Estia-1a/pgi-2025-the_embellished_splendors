@@ -1,0 +1,12 @@
+/home/runner/work/pgi-2025-the_embellished_splendors/pgi-2025-the_embellished_splendors/src/features.c: In function ‘scale_crop’:
+/home/runner/work/pgi-2025-the_embellished_splendors/pgi-2025-the_embellished_splendors/src/features.c:473:5: warning: implicit declaration of function ‘memset’ [-Wimplicit-function-declaration]
+  473 |     memset(crop_data, 0, new_width * new_height * channels);
+      |     ^~~~~~
+/home/runner/work/pgi-2025-the_embellished_splendors/pgi-2025-the_embellished_splendors/src/features.c:8:1: note: include ‘<string.h>’ or provide a declaration of ‘memset’
+    7 | #include "utils.h"
+  +++ |+#include <string.h>
+    8 | 
+/home/runner/work/pgi-2025-the_embellished_splendors/pgi-2025-the_embellished_splendors/src/features.c:473:5: warning: incompatible implicit declaration of built-in function ‘memset’ [-Wbuiltin-declaration-mismatch]
+  473 |     memset(crop_data, 0, new_width * new_height * channels);
+      |     ^~~~~~
+/home/runner/work/pgi-2025-the_embellished_splendors/pgi-2025-the_embellished_splendors/src/features.c:473:5: note: include ‘<string.h>’ or provide a declaration of ‘memset’
