@@ -642,3 +642,39 @@ void mirror_vertical(char *source_path){
     free(data);
     free(mirror_data);
 }
+
+void mirror_total(char *source_path) {
+    unsigned char *data = NULL;
+    int width, height, channels;
+
+    if (read_image_data(source_path, &data, &width, &height, &channels) == 0) {
+        printf("Erreur de lecture image.\n");
+        return;
+    }
+
+    unsigned char *mirror_data = malloc(width * height * channels);
+    if (!mirror_data) {
+        printf("Erreur mémoire.\n");
+        free(data);
+        return;
+    }
+
+    for (int y = 0; y < height; ++y) {
+        for (int x = 0; x < width; ++x) {
+            for (int c = 0; c < channels; ++c) {
+                int new_x = width - 1 - x;
+                int new_y = height - 1 - y;
+
+                mirror_data[(new_y * width + new_x) * channels + c] =
+                    data[(y * width + x) * channels + c];
+            }
+        }
+    }
+
+    if (write_image_data("image_out.bmp", mirror_data, width, height) == 0) {
+        printf("Erreur d'écriture de l'image.\n");
+    }
+
+    free(data);
+    free(mirror_data);
+}
