@@ -22,10 +22,9 @@ void color_green(char *source_path);
 void color_blue(char *source_path);
 void color_gray(char *source_path);
 
-
-
-
-
+/*Transform*/
+void rotate_cw(char *source_path);
+void rotate_acw(char *source_path);
 
 
 #endif
