@@ -23,6 +23,11 @@ void color_blue(char *source_path);
 void color_gray(char *source_path);
 void color_invert(char *source_path);
 void color_gray_luminance(char *source_path);
+void color_desaturate(char *source_path);
+
+/* Resize */
+void scale_crop(char *source_path, int center_x, int center_y, int new_width, int new_height);
+
 
 
 /*Transform*/

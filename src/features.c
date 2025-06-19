@@ -363,48 +363,143 @@ void color_invert(char *source_path) {
     int width, height, channels;
 
     if (read_image_data(source_path, &data, &width, &height, &channels) == 0) {
-        printf("Erreur : impossible de lire l’image.\n");
+        printf("Lecture de l'image impossible.\n");
         return;
     }
 
-    for (int i = 0; i < width * height * channels; i++) {
-        data[i] = 255 - data[i];
+    for (int i = 0; i < width * height * channels; i += channels) {
+        unsigned char r = data[i];
+        unsigned char g = data[i + 1];
+        unsigned char b = data[i + 2];
+        
+        data[i] = 255 - r;
+        data[i + 1] = 255 - g;
+        data[i + 2] = 255 - b;
+    }  
+
+    if (write_image_data("image_out.bmp", data, width, height) == 0) {
+        printf("Erreur lors de l'écriture de l'image.\n");
     }
 
-    write_image_data("image_out.bmp", data, width, height);
     free(data);
 }
 
 void color_gray_luminance(char *source_path) {
     unsigned char *data = NULL;
-    int width = 0, height = 0, channels = 0;
+    int width, height, channels;
 
-    if (!read_image_data(source_path, &data, &width, &height, &channels)) {
-        printf("Erreur lors de la lecture de l'image.\n");
+    if (read_image_data(source_path, &data, &width, &height, &channels) == 0) {
+        printf("Lecture de l'image impossible.\n");
         return;
     }
 
-    // On travaille sur une copie des données
-    unsigned char *gray_data = malloc(width * height * channels);
-    if (!gray_data) {
-        free(data);
+    for (int i = 0; i < width * height * channels; i += channels) {
+        unsigned char r = data[i];
+        unsigned char g = data[i + 1];
+        unsigned char b = data[i + 2];
+        unsigned char value = 0.21*r + 0.72*g + 0.07*b;
+        
+        data[i] = value;
+        data[i + 1] = value;
+        data[i + 2] = value;
+    }
+
+    if (write_image_data("image_out.bmp", data, width, height) == 0) {
+        printf("Erreur lors de l'écriture de l'image.\n");
+    }
+
+    free(data);
+
+}
+
+int max(int n1, int n2, int n3) {
+    int max = 0 ;
+
+    if (n3>n2 && n3>n1) {
+        max = n3;
+    } else if (n2>n1) {
+        max = n2 ;
+    } else {
+        max = n1 ;
+    }
+
+    return max ;
+}
+
+int min(int n1, int n2, int n3) {
+    int min = 0 ;
+
+    if (n3<n2 && n3<n1) {
+        min = n3;
+    } else if (n2<n1) {
+        min = n2 ;
+    } else {
+        min = n1 ;
+    }
+
+    return min ;
+}
+
+void color_desaturate(char *source_path) {
+    unsigned char *data = NULL;
+    int width, height, channels;
+
+    if (read_image_data(source_path, &data, &width, &height, &channels) == 0) {
+        printf("Lecture de l'image impossible.\n");
         return;
     }
 
-    for (int y = 0; y < height; y++) {
-        for (int x = 0; x < width; x++) {
-            pixelRGB *p = get_pixel(data, width, height, channels, x, y);
-            pixelRGB *q = get_pixel(gray_data, width, height, channels, x, y);
+    for (int i = 0; i < width * height * channels; i += channels) {
+        unsigned char R = data[i];
+        unsigned char G = data[i + 1];
+        unsigned char B = data[i + 2];
+        unsigned char new_val = (min(R, G, B) + max(R, G, B)) / 2;
+        
+        data[i] = new_val;
+        data[i + 1] = new_val;
+        data[i + 2] = new_val;
+    }
 
-            unsigned char gray = 0.21 * p->R + 0.72 * p->G + 0.07 * p->B;
-            q->R = q->G = q->B = gray;
+    if (write_image_data("image_out.bmp", data, width, height) == 0) {
+        printf("Erreur lors de l'écriture de l'image.\n");
+    }
+
+    free(data);
+
+}
+
+void scale_crop(char *source_path, int center_x, int center_y, int new_width, int new_height){
+    unsigned char *data = NULL;
+    int width, height, channels;
+ 
+    read_image_data(source_path, &data, &width, &height, &channels);
+ 
+    unsigned char *crop_data = malloc(new_width * new_height * channels);
+ 
+    memset(crop_data, 0, new_width * new_height * channels);
+
+    int debut_x = center_x - new_width / 2;
+    int debut_y = center_y - new_height / 2;
+ 
+    for (int y = 0; y < new_height; ++y) {
+        for (int x = 0; x < new_width; ++x) {
+            int img_original_x = debut_x + x;
+            int img_original_y = debut_y + y;
+            
+            if (img_original_x >= 0 && img_original_x < width && img_original_y >= 0 && img_original_y < height) {
+                for (int c = 0; c < channels; ++c) {
+                    crop_data[(y * new_width + x) * channels + c] = data[(img_original_y * width + img_original_x) * channels + c];
+                }
+            }
         }
     }
-
-    write_image_data("image_out.bmp", gray_data, width, height);
+ 
+    write_image_data("image_out.bmp", crop_data, new_width, new_height);
+ 
     free(data);
-    free(gray_data);
+    free(crop_data);
 }
+
 
 /* TRANSFORM */
 
