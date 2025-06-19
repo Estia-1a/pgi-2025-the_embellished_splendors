@@ -14,5 +14,6 @@ color_green
 color_blue
 color_gray
 color_invert
+color_gray_luminance
 rotate_cw
 rotate_acw

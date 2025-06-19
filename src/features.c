@@ -375,6 +375,38 @@ void color_invert(char *source_path) {
     free(data);
 }
 
+void color_gray_luminance(char *source_path) {
+    unsigned char *data = NULL;
+    int width = 0, height = 0, channels = 0;
+
+    if (!read_image_data(source_path, &data, &width, &height, &channels)) {
+        printf("Erreur lors de la lecture de l'image.\n");
+        return;
+    }
+
+    unsigned char *gray_data = malloc(width * height * channels);
+    if (!gray_data) {
+        free(data);
+        return;
+    }
+
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            pixelRGB *p = get_pixel(data, width, height, channels, x, y);
+            pixelRGB *q = get_pixel(gray_data, width, height, channels, x, y);
+
+            unsigned char gray = 0.21 * p->R + 0.72 * p->G + 0.07 * p->B;
+            q->R = q->G = q->B = gray;
+        }
+    }
+
+    write_image_data("image_out.bmp", gray_data, width, height);
+    free(data);
+    free(gray_data);
+}
+
+/* TRANSFORM */
+
 void rotate_cw(char *source_path) {
     unsigned char *data = NULL;
     int width, height, channels;
