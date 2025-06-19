@@ -384,6 +384,7 @@ void color_gray_luminance(char *source_path) {
         return;
     }
 
+    // On travaille sur une copie des données
     unsigned char *gray_data = malloc(width * height * channels);
     if (!gray_data) {
         free(data);

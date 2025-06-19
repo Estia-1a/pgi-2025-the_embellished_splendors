@@ -110,6 +110,7 @@ if (strncmp(configuration.command, "color_gray_luminance", 20) == 0) {
 
 
 
+
 /*Transform*/
 
 if (strncmp(configuration.command, "rotate_cw", 9) == 0) {
