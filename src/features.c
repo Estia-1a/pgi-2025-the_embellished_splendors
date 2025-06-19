@@ -52,16 +52,10 @@ void tenth_pixel(char *source_path) {
 
     read_image_data(source_path, &data, &width, &height, &channels);
 
-    if (width < 10) {
-        printf("largeur < 10 \n");
-        free(data);
-        return;
-    }
-
-    int index = (9 * channels); // 9e pixel (x=9,y=0), channels par pixel
-    unsigned char R = data[index];
-    unsigned char G = data[index + 1];
-    unsigned char B = data[index + 2];
+    int i = 9 * channels; 
+    unsigned char R = data[i];
+    unsigned char G = data[i + 1];
+    unsigned char B = data[i + 2];
 
     printf("tenth_pixel: %d, %d, %d\n", R, G, B);
 
@@ -76,7 +70,7 @@ void second_line(char *source_path) {
         printf("Image too small\n");
         return;
     }
-    int index = width * channels; // Premier pixel de la deuxième ligne (ligne 1)
+    int index = width * channels; 
     printf("second_line: %d, %d, %d\n", data[index], data[index + 1], data[index + 2]);
 }
 
@@ -280,8 +274,8 @@ void color_red(char *source_path) {
     }
 
     for (int i = 0; i < width * height * channels; i += channels) {
-        data[i + 1] = 0; // G
-        data[i + 2] = 0; // B
+        data[i + 1] = 0; 
+        data[i + 2] = 0; 
     }
 
     write_image_data("image_out.bmp", data, width, height);
